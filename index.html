@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar System</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #000;
+        }
+
+        .solar-system {
+            position: relative;
+            width: 600px;
+            height: 600px;
+        }
+
+        .sun {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50px;
+            height: 50px;
+            margin-top: -25px;
+            margin-left: -25px;
+            background: yellow;
+            border-radius: 50%;
+            box-shadow: 0 0 50px yellow;
+        }
+
+        .orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+        }
+
+        .mercury-orbit {
+            width: 100px;
+            height: 100px;
+        }
+
+        .venus-orbit {
+            width: 200px;
+            height: 200px;
+        }
+
+        .earth-orbit {
+            width: 300px;
+            height: 300px;
+        }
+
+        .moon-orbit {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .mars-orbit {
+            width: 400px;
+            height: 400px;
+        }
+
+        .planet {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .mercury {
+            width: 10px;
+            height: 10px;
+            background: gray;
+        }
+
+        .venus {
+            width: 15px;
+            height: 15px;
+            background: orange;
+        }
+
+        .earth {
+            width: 20px;
+            height: 20px;
+            background: blue;
+        }
+
+        .moon {
+            width: 5px;
+            height: 5px;
+            background: lightgray;
+        }
+
+        .mars {
+            width: 12px;
+            height: 12px;
+            background: red;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('path/to/star-image.png'); /* Replace with your star image or use CSS for dots */
+            z-index: -1; /* Push stars behind other elements */
+        }
+
+        /* If using dots for stars */
+        .stars {
+            background: none; /* Remove star image if using dots */
+        }
+
+        .stars::before {
+            content: '';
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            background: white;
+            box-shadow: 1000px 0 #fff; /* Scatter dots */
+            animation: animateStars 50s linear infinite;
+        }
+
+        @keyframes animateStars {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-1000px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="solar-system">
+        <div class="sun"></div>
+        <div class="orbit mercury-orbit">
+            <div class="planet mercury"></div>
+        </div>
+        <div class="orbit venus-orbit">
+            <div class="planet venus"></div>
+        </div>
+        <div class="orbit earth-orbit">
+            <div class="planet earth"></div>
+            <div class="orbit moon-orbit">
+                <div class="planet moon"></div>
+            </div>
+        </div>
+        <div class="orbit mars-orbit">
+            <div class="planet mars"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        function animate() {
+            const orbits = document.querySelectorAll('.orbit');
+            let angle = 0;
+
+            setInterval(() => {
+                angle += 0.1;
+                orbits.forEach((orbit, index) => {
+                    const planets = orbit.querySelectorAll('.planet');
+                    planets.forEach((planet, planetIndex) => {
+                        const radius = orbit.clientWidth / 2;
+                        const planetAngle = angle + (index + planetIndex) * 30;
+                        const x = radius * Math.cos(planetAngle / 180 * Math.PI);
+                        const y = radius * Math.sin(planetAngle / 180 * Math.PI);
+                        planet.style.transform = `translate(${x}px, ${y}px)`;
+                    });
+                });
+            }, 30);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
